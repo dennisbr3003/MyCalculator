@@ -8,7 +8,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/mycalculator"
-        android:label="@string/app_name"
+        android:label="@string/_appname"
         android:roundIcon="@drawable/mycalculator"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyCalculator"

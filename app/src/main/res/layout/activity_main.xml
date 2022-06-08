@@ -10,25 +10,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:textSize="30sp"
             android:id="@+id/textViewHistory"
-            android:gravity="center|end"
-            android:background="@color/white"
-            android:textColor="@color/black"
-            android:paddingEnd="10dp"/>
-        <TextView
             android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:textSize="45sp"
-            android:id="@+id/textViewResult"
-            android:gravity="center|end"
+            android:layout_height="80dp"
             android:background="@color/white"
+            android:gravity="center|end"
+            android:paddingEnd="10dp"
             android:textColor="@color/black"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/textViewResult"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/white"
+            android:gravity="center|end"
+            android:paddingEnd="10dp"
             android:text="0"
-            android:paddingEnd="10dp"/>
+            android:textColor="@color/black"
+            android:textSize="45sp" />
+
+        <TextView
+            android:id="@+id/textViewMemory"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:paddingLeft="10dp"
+            android:text="Memory"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <GridLayout
