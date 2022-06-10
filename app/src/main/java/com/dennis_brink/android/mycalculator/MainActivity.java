@@ -2,6 +2,7 @@ package com.dennis_brink.android.mycalculator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+
+import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     String number = null;
     int bracketopen=0;
     int bracketclosed=0;
+    boolean isProduct=false;
+
+    //DecimalFormat myDecimalFormatter = new DecimalFormat("#########.#########");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,70 +85,88 @@ public class MainActivity extends AppCompatActivity {
         btn0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                numberClick("0");
+                Button b = (Button)view;
+                numberClick(b.getText().toString());
             }
         });
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                numberClick("1");
+                Button b = (Button)view;
+                numberClick(b.getText().toString());
             }
         });
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                numberClick("2");
+                Button b = (Button)view;
+                numberClick(b.getText().toString());
             }
         });
 
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                numberClick("3");
+                Button b = (Button)view;
+                numberClick(b.getText().toString());
             }
         });
 
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                numberClick("4");
+                Button b = (Button)view;
+                numberClick(b.getText().toString());
             }
         });
 
         btn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                numberClick("5");
+                Button b = (Button)view;
+                numberClick(b.getText().toString());
             }
         });
 
         btn6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                numberClick("6");
+                Button b = (Button)view;
+                numberClick(b.getText().toString());
             }
         });
 
         btn7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                numberClick("7");
+                Button b = (Button)view;
+                numberClick(b.getText().toString());
             }
         });
 
         btn8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                numberClick("8");
+                Button b = (Button)view;
+                numberClick(b.getText().toString());
             }
         });
 
         btn9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                numberClick("9");
+                Button b = (Button)view;
+                numberClick(b.getText().toString());
+            }
+        });
+
+        btnDot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Button b = (Button)view;
+                operatorClick(b.getText().toString());
             }
         });
 
@@ -150,6 +174,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if (hasError()) {return;}
+
+                tvResult.setText(tvResult.getText().toString().substring(0, tvResult.getText().toString().length() - 1));
+                if(tvResult.getText().toString().length()==0){
+                    tvResult.setText(R.string._zero);
+                }
             }
         });
 
@@ -157,12 +187,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if (hasError()) {return;}
+
+                if(!tvResult.getText().toString().equals(R.string._zero)) {
+                    tvMemory.setText(tvResult.getText().toString());
+                }
             }
         });
 
         btnAc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                number = null;
+                tvHistory.setText("");
+                tvResult.setText(R.string._zero);
+                tvMemory.setText(R.string._empty);
+                tvResult.setTextColor(Color.BLACK);
 
             }
         });
@@ -171,56 +211,79 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if (hasError()) {return;}
+
+                if(tvResult.getText().toString().equals(R.string._zero)){
+                    tvResult.setText(String.format("%s", tvMemory.getText().toString()));
+                } else {
+                    tvResult.setText(String.format("%s%s", tvResult.getText().toString(), tvMemory.getText().toString()));
+                }
             }
         });
 
         btnBracketOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bracketClick("(");
+                Button b = (Button)view;
+                bracketClick(b.getText().toString());
             }
         });
 
         btnBracketClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bracketClick(")");
+                Button b = (Button)view;
+                bracketClick(b.getText().toString());
             }
         });
 
         btnDev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                operatorClick("/");
+                Button b = (Button)view;
+                operatorClick(b.getText().toString());
             }
         });
 
         btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                operatorClick("+");
+                Button b = (Button)view;
+                operatorClick(b.getText().toString());
             }
         });
 
         btnMin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                operatorClick("-");
+                Button b = (Button)view;
+                operatorClick(b.getText().toString());
             }
         });
 
         btnMulti.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                operatorClick("*");
+                Button b = (Button)view;
+                operatorClick(b.getText().toString());
             }
         });
 
         btnEquals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (hasError()) {return;}
+
+                String result="";
                 tvHistory.setText(String.format("%s%s", tvHistory.getText().toString(), tvResult.getText().toString()));
-                tvResult.setText(evaluateExpression(tvHistory.getText().toString()));
+                result=evaluateExpression(tvHistory.getText().toString());
+                tvResult.setText(result);
+                if (hasError()) {return;}
+                else {
+                    tvResult.setTextColor(Color.BLACK);
+                }
+
                 try {
                     double tmpNumber;
                     tmpNumber = Double.parseDouble(tvResult.getText().toString());
@@ -230,52 +293,60 @@ public class MainActivity extends AppCompatActivity {
                         tvResult.setText(String.valueOf(tmpNumber));
                     }
                     tvHistory.setText("");
+                    isProduct = true;
                 } catch(Exception e){
                     //do nothing
                 }
-                //number = null;
             }
         });
 
         btnInvert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (hasError()) {return;}
+
                 try {
-                    Double tmpNumber;
+                    double tmpNumber;
                     tmpNumber = Double.parseDouble(tvResult.getText().toString()) * -1;
-                    tvResult.setText(String.valueOf(tmpNumber));
+                    if ((tmpNumber - (int) tmpNumber) == 0) { // no decimals
+                        tvResult.setText(String.valueOf(Math.round(tmpNumber)));
+                    } else {
+                        tvResult.setText(String.valueOf(tmpNumber));
+                    }
                 } catch(Exception e){
                     // do nothing
                 }
             }
         });
 
-        btnDot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                numberClick(".");
-            }
-        });
-
-
     }
 
     private void numberClick(String view){
-        if(number==null) {
-            tvResult.setText(view);
+
+        if (hasError()) {return;}
+
+        if(isProduct || number==null){
+            tvResult.setText(view); // start new calculation
             number = view;
+            isProduct=false;
         } else {
             tvResult.setText(String.format("%s%s", tvResult.getText().toString(), view));
         }
     }
 
     private void operatorClick(String view){
+
+        if (hasError()) {return;}
+
         if(number==null) {
+            Log.d("DENNIS_B", "operatorClick: number = null");
             return;
         } else {
             if(bracketclosed == bracketopen) {
                 tvHistory.setText(String.format("%s%s%s", tvHistory.getText().toString(), tvResult.getText().toString(), view));
                 tvResult.setText("0");
+                Log.d("DENNIS_B", "operatorClick: setting number = null");
                 number = null;
             } else {
                 tvResult.setText(String.format("%s%s", tvResult.getText().toString(), view));
@@ -284,6 +355,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void bracketClick(String view){
+
+        if (hasError()) {return;}
+
         if(number==null && view == ")") {
             return;
         } else {
@@ -301,16 +375,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private boolean hasError(){
+        Log.d("DENNIS_B", "hasError: console " + tvResult.getText().toString());
+        Log.d("DENNIS_B", "hasError: error " + getString(R.string._error));
 
-    private void functionClick(String view){
-        if(number==null) {
-            tvResult.setText(view);
-            number = view;
-        } else {
-            tvResult.setText(String.format("%s%s", tvResult.getText().toString(), view));
+        if (tvResult.getText().toString().equals(getString(R.string._error))) {
+            tvResult.setTextColor(Color.RED);
+            return true;
         }
+        return false;
     }
-
 
     private String evaluateExpression(String expression){
 
@@ -318,14 +392,14 @@ public class MainActivity extends AppCompatActivity {
 
         Context rhino = Context.enter();
         rhino.setOptimizationLevel(-1); // turn off optimization to work with android
-
+        Log.d("DENNIS_B", "evaluateExpression: expression " + expression);
         try {
             Scriptable scope = rhino.initStandardObjects();
             result = rhino.evaluateString(scope, expression, "JavaScript", 1, null).toString();
-            Log.d("DENNIS_B", "JS eval result: " + result);
+            Log.d("DENNIS_B", "evaluateExpression: JS eval result: " + result);
         } catch(Exception e){
-            Log.d("DENNIS_B", "JS eval expression failure: " + e.getMessage());
-            result = String.format("Error in expression");
+            Log.d("DENNIS_B", "evaluateExpression: JS eval expression failure: " + e.getMessage());
+            result = String.format(getString(R.string._error));
         } finally {
             Context.exit();
             return result;
