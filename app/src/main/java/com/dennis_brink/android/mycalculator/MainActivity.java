@@ -1,9 +1,6 @@
 package com.dennis_brink.android.mycalculator;
 
-import static android.text.TextUtils.split;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +10,6 @@ import android.widget.TextView;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
-
-import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity {
 
