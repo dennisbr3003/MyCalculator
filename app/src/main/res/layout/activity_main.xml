@@ -41,7 +41,7 @@
                 android:id="@+id/textViewLabelMemory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="5dp"
+                android:paddingStart="10dp"
                 android:paddingEnd="2dp"
                 android:text="M"
                 android:textStyle="bold" />
