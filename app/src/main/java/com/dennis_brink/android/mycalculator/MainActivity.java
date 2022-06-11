@@ -1,5 +1,7 @@
 package com.dennis_brink.android.mycalculator;
 
+import static android.text.TextUtils.split;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
            btnDel, btnMem, btnAc, btnMr,
            btnBracketOpen, btnBracketClose, btnDev, btnPlus, btnMin, btnMulti, btnEquals, btnInvert, btnDot;
 
-    TextView tvHistory, tvResult, tvMemory;
+    TextView tvHistory, tvResult, tvMemory, tvLabelMemory;
 
     String number = null;
     int bracketopen=0;
@@ -42,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.mc_logo_padding_main);
         getSupportActionBar().setTitle(getString(R.string._appname));
-        //getSupportActionBar().setSubtitle(getString(null));
         getSupportActionBar().setDisplayUseLogoEnabled(true);
     }
 
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         tvHistory = findViewById(R.id.textViewHistory);
         tvResult = findViewById(R.id.textViewResult);
         tvMemory = findViewById(R.id.textViewMemory);
+        tvLabelMemory = findViewById(R.id.textViewLabelMemory);
 
     }
 
@@ -165,8 +167,12 @@ public class MainActivity extends AppCompatActivity {
         btnDot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // only one dot allowed
+                if(tvResult.getText().toString().indexOf(".") > 0){
+                    return;
+                }
                 Button b = (Button)view;
-                operatorClick(b.getText().toString());
+                numberClick(b.getText().toString());
             }
         });
 
@@ -176,9 +182,19 @@ public class MainActivity extends AppCompatActivity {
 
                 if (hasError()) {return;}
 
+               Log.d("DENNIS_B", "btnDel.onClick: delete character: " + tvResult.getText().toString().substring((tvResult.getText().toString().length() - 1)));
+
+                if(tvResult.getText().toString().substring((tvResult.getText().toString().length() - 1)).equals("(")){
+                    bracketopen--;
+                }
+                if(tvResult.getText().toString().substring((tvResult.getText().toString().length() - 1)).equals(")")) {
+                    bracketclosed--;
+                }
+
                 tvResult.setText(tvResult.getText().toString().substring(0, tvResult.getText().toString().length() - 1));
                 if(tvResult.getText().toString().length()==0){
                     tvResult.setText(R.string._zero);
+                    number = null;
                 }
             }
         });
@@ -203,7 +219,10 @@ public class MainActivity extends AppCompatActivity {
                 tvResult.setText(R.string._zero);
                 tvMemory.setText(R.string._empty);
                 tvResult.setTextColor(Color.BLACK);
-
+                tvMemory.setTextColor(Color.BLACK);
+                tvLabelMemory.setText(R.string._m);
+                bracketopen=0;
+                bracketclosed=0;
             }
         });
 
@@ -211,12 +230,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (hasError()) {return;}
+                if (hasError() || tvMemory.getText().toString().equals(getString(R.string._empty))) {return;}
 
-                if(tvResult.getText().toString().equals(R.string._zero)){
-                    tvResult.setText(String.format("%s", tvMemory.getText().toString()));
+                Log.d("DENNIS_B", "btnMr.onClick: isProduct = " + isProduct);
+                Log.d("DENNIS_B", "btnMr.onClick: number==null = " + String.valueOf(number==null));
+
+                if(isProduct || number==null) {
+                    tvResult.setText(String.format("%s", tvMemory.getText().toString())); // start new calculation
+                    number = tvMemory.getText().toString();
+                    isProduct = false;
                 } else {
-                    tvResult.setText(String.format("%s%s", tvResult.getText().toString(), tvMemory.getText().toString()));
+                    if (tvResult.getText().toString().equals(getString(R.string._zero))) {
+                        tvResult.setText(String.format("%s", tvMemory.getText().toString()));
+                    } else {
+                        tvResult.setText(String.format("%s%s", tvResult.getText().toString(), tvMemory.getText().toString()));
+                    }
                 }
             }
         });
@@ -278,10 +306,22 @@ public class MainActivity extends AppCompatActivity {
                 String result="";
                 tvHistory.setText(String.format("%s%s", tvHistory.getText().toString(), tvResult.getText().toString()));
                 result=evaluateExpression(tvHistory.getText().toString());
-                tvResult.setText(result);
+
+                Log.d("DENNIS_B", "btnEquals.onClick: result evaluation (before split): " + result);
+
+                String[] div_result = result.split("#");
+
+                tvResult.setText(div_result[0]); // the first element is always there
+                if(div_result.length > 1) { // only in case of error
+                    tvMemory.setText(div_result[1]);
+                    tvLabelMemory.setText(R.string._dtl);
+                }
+
                 if (hasError()) {return;}
                 else {
                     tvResult.setTextColor(Color.BLACK);
+                    tvMemory.setTextColor(Color.BLACK);
+                    tvLabelMemory.setText(R.string._m);
                 }
 
                 try {
@@ -309,6 +349,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     double tmpNumber;
                     tmpNumber = Double.parseDouble(tvResult.getText().toString()) * -1;
+
                     if ((tmpNumber - (int) tmpNumber) == 0) { // no decimals
                         tvResult.setText(String.valueOf(Math.round(tmpNumber)));
                     } else {
@@ -330,6 +371,7 @@ public class MainActivity extends AppCompatActivity {
             tvResult.setText(view); // start new calculation
             number = view;
             isProduct=false;
+            Log.d("DENNIS_B", "numberClick: isProduct = " + isProduct);
         } else {
             tvResult.setText(String.format("%s%s", tvResult.getText().toString(), view));
         }
@@ -337,15 +379,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void operatorClick(String view){
 
+        Log.d("DENNIS_B", "operatorClick: hasError = " + hasError());
+
         if (hasError()) {return;}
 
         if(number==null) {
             Log.d("DENNIS_B", "operatorClick: number = null");
             return;
         } else {
+            Log.d("DENNIS_B", "operatorClick: bracket count (open and closed) = " + bracketopen + "-" + bracketclosed );
             if(bracketclosed == bracketopen) {
                 tvHistory.setText(String.format("%s%s%s", tvHistory.getText().toString(), tvResult.getText().toString(), view));
-                tvResult.setText("0");
+                tvResult.setText(R.string._zero);
                 Log.d("DENNIS_B", "operatorClick: setting number = null");
                 number = null;
             } else {
@@ -358,29 +403,32 @@ public class MainActivity extends AppCompatActivity {
 
         if (hasError()) {return;}
 
-        if(number==null && view == ")") {
+        if(number==null && view.equals(")")) {
             return;
         } else {
-            if(number==null){
+            if(number==null || isProduct){
                 tvResult.setText(view);
                 number = view;
+                isProduct = false;
             } else {
                 tvResult.setText(String.format("%s%s", tvResult.getText().toString(), view));
             }
-            if(view == "("){
+
+            if(view.equals("(")){
+                Log.d("DENNIS_B", "bracketClick: add to open +1 " + view);
                 bracketopen++;
             } else {
+                Log.d("DENNIS_B", "bracketClick: add to closed +1 " + view);
                 bracketclosed++;
             }
         }
     }
 
     private boolean hasError(){
-        Log.d("DENNIS_B", "hasError: console " + tvResult.getText().toString());
-        Log.d("DENNIS_B", "hasError: error " + getString(R.string._error));
 
         if (tvResult.getText().toString().equals(getString(R.string._error))) {
             tvResult.setTextColor(Color.RED);
+            tvMemory.setTextColor(Color.RED);
             return true;
         }
         return false;
@@ -398,8 +446,8 @@ public class MainActivity extends AppCompatActivity {
             result = rhino.evaluateString(scope, expression, "JavaScript", 1, null).toString();
             Log.d("DENNIS_B", "evaluateExpression: JS eval result: " + result);
         } catch(Exception e){
-            Log.d("DENNIS_B", "evaluateExpression: JS eval expression failure: " + e.getMessage());
-            result = String.format(getString(R.string._error));
+            result = String.format("%s#%s", getString(R.string._error), e.getMessage());
+            Log.d("DENNIS_B", "evaluateExpression: JS eval expression failure: " + result);
         } finally {
             Context.exit();
             return result;

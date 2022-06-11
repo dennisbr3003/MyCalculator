@@ -3,4 +3,6 @@
     <string name="_empty"><![CDATA[<empty>]]></string>
     <string name="_zero">0</string>
     <string name="_error">Error in expression</string>
+    <string name="_m">M</string>
+    <string name="_dtl">DTL</string>
 </resources>
