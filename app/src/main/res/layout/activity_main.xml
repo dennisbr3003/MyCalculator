@@ -17,6 +17,7 @@
             android:layout_height="80dp"
             android:background="@color/white"
             android:gravity="center|end"
+            android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:textColor="@color/black"
             android:textSize="30sp" />
@@ -27,8 +28,9 @@
             android:layout_height="100dp"
             android:background="@color/white"
             android:gravity="center|end"
+            android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:text="0"
+            android:text="@string/_zero"
             android:textColor="@color/black"
             android:textSize="45sp" />
 
@@ -43,14 +45,15 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingEnd="2dp"
-                android:text="M"
+                android:text="@string/_m"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textViewMemory"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:paddingLeft="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:text="@string/_empty"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -72,9 +75,10 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="AC"
+            android:text="@string/_ac"
             android:textColor="@color/orange"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            tools:ignore="TextContrastCheck" />
 
         <Button
             android:id="@+id/btnMemoryAdd"
@@ -85,9 +89,10 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="M+"
+            android:text="@string/_mplus"
             android:textColor="@color/orange"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            tools:ignore="TextContrastCheck" />
 
         <Button
             android:id="@+id/btnDel"
@@ -98,9 +103,10 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="DEL"
+            android:text="@string/_del"
             android:textColor="@color/orange"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            tools:ignore="TextContrastCheck" />
 
         <Button
             android:id="@+id/btnMemoryUse"
@@ -111,9 +117,10 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="MR"
+            android:text="@string/_mread"
             android:textColor="@color/orange"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            tools:ignore="TextContrastCheck" />
 
         <Button
             android:id="@+id/btnBracketOpen"
@@ -124,9 +131,10 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="("
+            android:text="@string/_bracketopen"
             android:textColor="@color/orange"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            tools:ignore="TextContrastCheck" />
 
         <Button
             android:id="@+id/btnBracketClose"
@@ -137,9 +145,10 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text=")"
+            android:text="@string/_bracketclose"
             android:textColor="@color/orange"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            tools:ignore="TextContrastCheck" />
 
         <Button
             android:id="@+id/btnDevide"
@@ -150,9 +159,10 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="/"
+            android:text="@string/_devide"
             android:textColor="@color/orange"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            tools:ignore="TextContrastCheck" />
 
         <Button
             android:id="@+id/btnMultiply"
@@ -163,9 +173,10 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="*"
+            android:text="@string/_multiply"
             android:textColor="@color/orange"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            tools:ignore="TextContrastCheck" />
 
         <Button
             android:id="@+id/btnSeven"
@@ -176,7 +187,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="7"
+            android:text="@string/_7"
             android:textColor="@color/black"
             android:textSize="30sp" />
 
@@ -189,7 +200,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="8"
+            android:text="@string/_8"
             android:textColor="@color/black"
             android:textSize="30sp" />
 
@@ -202,7 +213,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="9"
+            android:text="@string/_9"
             android:textColor="@color/black"
             android:textSize="30sp" />
 
@@ -215,9 +226,10 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="-"
+            android:text="@string/_minus"
             android:textColor="@color/orange"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            tools:ignore="TextContrastCheck" />
 
         <Button
             android:id="@+id/btnFour"
@@ -228,7 +240,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="4"
+            android:text="@string/_4"
             android:textColor="@color/black"
             android:textSize="30sp" />
 
@@ -241,7 +253,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="5"
+            android:text="@string/_5"
             android:textColor="@color/black"
             android:textSize="30sp" />
 
@@ -254,7 +266,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="6"
+            android:text="@string/_6"
             android:textColor="@color/black"
             android:textSize="30sp" />
 
@@ -267,9 +279,10 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="+"
+            android:text="@string/_plus"
             android:textColor="@color/orange"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            tools:ignore="TextContrastCheck" />
         <Button
             android:id="@+id/btnOne"
             android:layout_width="wrap_content"
@@ -279,7 +292,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="1"
+            android:text="@string/_1"
             android:textColor="@color/black"
             android:textSize="30sp" />
 
@@ -292,7 +305,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="2"
+            android:text="@string/_2"
             android:textColor="@color/black"
             android:textSize="30sp" />
 
@@ -305,7 +318,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="3"
+            android:text="@string/_3"
             android:textColor="@color/black"
             android:textSize="30sp" />
 
@@ -314,15 +327,16 @@
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:layout_row="4"
+            android:layout_rowSpan="2"
+            android:layout_rowWeight="1"
             android:layout_column="3"
             android:layout_columnWeight="1"
-            android:backgroundTint="@color/orange"
-            android:text="="
             android:layout_margin="3dp"
+            android:backgroundTint="@color/orange"
+            android:text="@string/_equals"
             android:textColor="@color/white"
             android:textSize="30sp"
-            android:layout_rowWeight="1"
-            android:layout_rowSpan="2"/>
+            tools:ignore="TextContrastCheck" />
 
         <Button
             android:id="@+id/btnZero"
@@ -333,7 +347,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="0"
+            android:text="@string/_zero"
             android:textColor="@color/black"
             android:textSize="30sp" />
         <Button
@@ -345,7 +359,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="+/-"
+            android:text="@string/_invert"
             android:textColor="@color/black"
             android:textSize="30sp" />
         <Button
@@ -357,7 +371,7 @@
             android:layout_columnWeight="1"
             android:layout_margin="3dp"
             android:backgroundTint="@color/white"
-            android:text="."
+            android:text="@string/_dot"
             android:textColor="@color/black"
             android:textSize="30sp" />
 
