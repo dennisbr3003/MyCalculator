@@ -151,14 +151,15 @@
             tools:ignore="TextContrastCheck" />
 
         <Button
-            android:id="@+id/btnDummy"
+            android:id="@+id/btnExp"
             android:layout_width="85dp"
             android:layout_height="80dp"
             android:layout_columnWeight="1"
             android:layout_marginStart="3dp"
             android:layout_marginEnd="3dp"
             android:backgroundTint="@color/white"
-            android:text="..²"
+            android:textAllCaps="false"
+            android:text="xʸ"
             android:textColor="@color/orange"
             android:textSize="25sp"
             tools:ignore="TextContrastCheck" />
